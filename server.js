@@ -279,6 +279,10 @@ app.get("/", (req, res) => {
   res.json({ message: "MoodFix backend is running" });
 });
 
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "ok", uptime: process.uptime() });
+});
+
 app.post("/generate-joke", async (req, res) => {
   try {
     const {
@@ -427,15 +431,13 @@ app.post("/generate-image", async (req, res) => {
     //console.log("IMAGE PROMPT:", prompt);
     const resp = await client.chat.completions.create({
       model: "bytedance-seed/seedream-4.5",
-      modalities: ["image"],
+      modalities: ["image", "text"],
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
-      size: "1024x1024",
-      n: 1,
     });
     //console.log("IMAGE RESPONSE:", resp.choices?.[0].message?.images?.[0].image_url?.url);
     const raw = resp.choices?.[0]?.message?.images?.[0].image_url?.url;
