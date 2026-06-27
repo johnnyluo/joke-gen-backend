@@ -431,7 +431,7 @@ app.post("/generate-image", async (req, res) => {
     //console.log("IMAGE PROMPT:", prompt);
     const resp = await client.chat.completions.create({
       model: "bytedance-seed/seedream-4.5",
-      modalities: ["image", "text"],
+      modalities: ["image"],
       messages: [
         {
           role: "user",
